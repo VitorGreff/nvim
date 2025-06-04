@@ -113,6 +113,7 @@ return {
     -- The 'config' function here now only needs to deal with LSPs that ARE NOT
     -- managed by mason and mason-lspconfig, or global lspconfig settings (rare).
     config = function()
+      require('lspconfig').gleam.setup({})
       -- Most of the keymaps have already been moved to the global 'on_attach' function.
       -- The 'setup_lsp' function previously was not needed here for servers managed
       -- by mason-lspconfig.
