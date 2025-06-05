@@ -1,20 +1,22 @@
 return {
-	"prettier/vim-prettier",
-	ft = {
-		"javascript",
-		"javascriptreact",
-		"typescript",
-		"typescriptreact",
-		"css",
-		"scss",
-		"markdown",
-		"vue",
-		"html",
-		"json",
-	},
-	build = "yarn install",
-	config = function()
-		vim.g["prettier#autoformat"] = 0
-		vim.g["prettier#autoformat_require_pragma"] = 0
-	end,
+  "prettier/vim-prettier",
+  ft = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "css",
+    "scss",
+    "markdown",
+    "vue",
+    "html",
+    "json",
+  },
+  build = "yarn install",
+  config = function()
+    vim.g["prettier#autoformat"] = 0
+    vim.g["prettier#autoformat_require_pragma"] = 0
+    -- Ensure default options when no file config is found
+    vim.g["prettier#config"] = {}     -- Empty config ensures default behavior
+  end,
 }
