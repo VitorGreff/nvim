@@ -7,116 +7,73 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    lazy = false,
-    opts = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- Function on_attach global: executed when a LSP server is attached to a buffer.
-      -- Ideal for setting keymaps specific to the LSP and other configurations per buffer.
-      local function on_attach(client, bufnr)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP: Hover" })
-        vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "LSP: Go to definition" })
-        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
-          { buffer = bufnr, desc = "LSP: Code Actions" })
-      end
-
-      return {
-        ensure_installed = {
-          "ts_ls",
-          "emmet_ls",
-          "jsonls",
-          "cssls",
-          "rust_analyzer",
-          "lua_ls",
-          "html",
-          "gopls",
-          "pyright",
-          "clangd",
-          "zls",
-          "marksman",
-          "tailwindcss",
-        },
-        handlers = {
-          function(server_name)
-            require("lspconfig")[server_name].setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-            })
-          end,
-
-          ["lua_ls"] = function()
-            require("lspconfig").lua_ls.setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              settings = {
-                Lua = {
-                  runtime = { version = "LuaJIT" },
-                  diagnostics = { globals = { "vim" } },
-                  workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                    checkThirdParty = false,
-                  },
-                  telemetry = { enable = false },
-                },
-              },
-            })
-          end,
-
-          ["gopls"] = function()
-            require("lspconfig").gopls.setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              settings = {
-                gopls = {
-                  analyses = {
-                    unusedparams = true,
-                  },
-                  staticcheck = true,
-                  gofumpt = true,
-                },
-              },
-            })
-          end,
-
-          ["emmet_ls"] = function()
-            local emmet_capabilities = vim.lsp.protocol.make_client_capabilities()
-            emmet_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-            require("lspconfig").emmet_ls.setup({
-              capabilities = vim.tbl_deep_extend("force", {}, capabilities, emmet_capabilities),
-              on_attach = on_attach,
-              filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-              init_options = {
-                html = {
-                  options = {
-                    ["bem.enabled"] = true,
-                  },
-                },
-              },
-            })
-          end,
-
-          ["html"] = function()
-            require("lspconfig").html.setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              filetypes = { "html", "angular.html" }, -- Add other filetypes if necessary
-            })
-          end,
-
-        },
-      }
-    end,
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "ts_ls",
+        "emmet_ls",
+        "cssls",
+        "html",
+        "tailwindcss",
+        "jsonls",
+        "marksman",
+        "rust_analyzer",
+        "gopls",
+        "clangd",
+      },
+    },
   },
   {
     "neovim/nvim-lspconfig",
-    -- The 'config' function here now only needs to deal with LSPs that ARE NOT
-    -- managed by mason and mason-lspconfig, or global lspconfig settings (rare).
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+    },
     config = function()
-      require('lspconfig').gleam.setup({})
-      -- Most of the keymaps have already been moved to the global 'on_attach' function.
-      -- The 'setup_lsp' function previously was not needed here for servers managed
-      -- by mason-lspconfig.
+      local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local servers = require("mason-lspconfig").get_installed_servers()
+
+      for _, server_name in ipairs(servers) do
+        local config = {
+          capabilities = capabilities,
+        }
+        if server_name == "lua_ls" then
+          config.settings = {
+            Lua = {
+              diagnostics = { globals = { "vim" } },
+            },
+          }
+        elseif server_name == "gopls" then
+          config.settings = {
+            gopls = {
+              analyses = { unusedparams = true },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          }
+        elseif server_name == "emmet_ls" then
+          local emmet_capabilities = vim.lsp.protocol.make_client_capabilities()
+          emmet_capabilities.textDocument.completion.completionItem.snippetSupport = true
+          config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, emmet_capabilities)
+          config.filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" }
+        else
+          -- base configuration load
+          lspconfig[server_name].setup(config)
+        end
+      end
+
+      -- non mason LSPs wll be loaded here
+      lspconfig.gleam.setup({
+        capabilities = capabilities,
+      })
+
+      -- global bindings
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover" })
+      vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "LSP: go to definition" })
+      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
+        { desc = "LSP: code actions" })
     end,
   },
 }
