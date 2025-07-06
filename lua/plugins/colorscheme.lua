@@ -1,11 +1,28 @@
 return {
   {
+    "navarasu/onedark.nvim",
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('onedark').setup {
+        style = 'dark' -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+      }
+      -- Enable theme
+      require('onedark').load()
+    end
+  },
+  {
+    "Shatur/neovim-ayu",
+    config = function()
+      -- vim.cmd.colorscheme("ayu")
+    end
+  },
+  {
     "sainnhe/sonokai",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.sonokai_enable_italic = true
-      vim.cmd.colorscheme("sonokai")
+      -- vim.g.sonokai_enable_italic = true
+      -- vim.cmd.colorscheme("sonokai")
     end,
   },
   {
@@ -59,6 +76,7 @@ return {
           light = "lotus",
         },
       })
+      -- vim.cmd.colorscheme("kanagawa")
     end,
   },
   {
@@ -97,6 +115,7 @@ return {
     config = function()
       require("catppuccin").setup({
         transparent_background = false,
+        -- vim.cmd.colorscheme("catppuccin")
       })
     end,
   }

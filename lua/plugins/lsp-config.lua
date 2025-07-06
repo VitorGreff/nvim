@@ -25,6 +25,7 @@ return {
           "clangd",
         },
 
+        -- LSPs handled by mason
         handlers = {
           function(server_name)
             require("lspconfig")[server_name].setup({
@@ -76,6 +77,7 @@ return {
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      -- LSPs handled by nvim-lspconfig
       require("lspconfig").gleam.setup({
         capabilities = capabilities,
       })

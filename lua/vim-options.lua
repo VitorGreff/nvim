@@ -64,8 +64,7 @@ vim.keymap.set("n", "<leader>e", function()
   vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
 end, { noremap = true, silent = true, desc = "Open diagnostic float" })
 
--- disable error messages
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
---   underline = true,
---   virtual_text = false,
--- })
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  underline = true,
+  virtual_text = false,
+})
