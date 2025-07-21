@@ -61,7 +61,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- error diagnosis
 vim.keymap.set("n", "<leader>e", function()
-  vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+  vim.diagnostic.open_float(nil, {
+    focus = false,
+    scope = "cursor",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+    format = function(diagnostic)
+      return string.format("%s", diagnostic.message)
+    end
+  })
 end, { noremap = true, silent = true, desc = "Open diagnostic float" })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
