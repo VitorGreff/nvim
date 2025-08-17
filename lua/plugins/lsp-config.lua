@@ -20,9 +20,9 @@ return {
           "html",
           "jsonls",
           "marksman",
-          "rust_analyzer",
           "gopls",
           "clangd",
+          "pyright",
         },
 
         -- LSPs handled by mason
@@ -64,6 +64,12 @@ return {
             require("lspconfig").emmet_ls.setup({
               capabilities = emmet_capabilities,
               filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+            })
+          end,
+
+          ["pyright"] = function()
+            require("lspconfig").pyright.setup({
+              capabilities = capabilities,
             })
           end,
         },
