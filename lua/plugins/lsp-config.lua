@@ -24,7 +24,6 @@ return {
           "clangd",
           "pyright",
         },
-
         -- LSPs handled by mason
         handlers = {
           function(server_name)
@@ -87,7 +86,6 @@ return {
       require("lspconfig").gleam.setup({
         capabilities = capabilities,
       })
-
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover" })
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
       vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: Code actions" })
