@@ -4,15 +4,14 @@ return {
   priority = 1000,    -- needs to be loaded in first
   config = function()
     require('tiny-inline-diagnostic').setup({
-
       -- Style preset for diagnostic messages
       -- Available options:
       -- "modern", "classic", "minimal", "powerline",
       -- "ghost", "simple", "nonerdfont", "amongus"
       preset = "ghost",
 
-      transparent_bg = false,         -- Set the background of the diagnostic to transparent
-      transparent_cursorline = false, -- Set the background of the cursorline to transparent (only one the first diagnostic)
+      transparent_bg = true,         -- Set the background of the diagnostic to transparent
+      transparent_cursorline = true, -- Set the background of the cursorline to transparent (only one the first diagnostic)
 
       hi = {
         error = "DiagnosticError", -- Highlight group for error messages
@@ -41,7 +40,7 @@ return {
         use_icons_from_diagnostic = false,
 
         -- Set the arrow icon to the same color as the first diagnostic severity
-        set_arrow_to_diag_color = false,
+        set_arrow_to_diag_color = true,
 
         -- Add messages to diagnostics when multiline diagnostics are enabled
         -- If set to false, only signs will be displayed

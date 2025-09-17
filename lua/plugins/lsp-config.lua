@@ -21,8 +21,8 @@ return {
           "jsonls",
           "marksman",
           "gopls",
-          "clangd",
           "pyright",
+          "clangd",
         },
         -- LSPs handled by mason
         handlers = {
@@ -67,6 +67,8 @@ return {
           end,
 
           ["pyright"] = function()
+            -- Disable Python's default 4-space indentation
+            vim.g.python_recommended_style = 0
             require("lspconfig").pyright.setup({
               capabilities = capabilities,
             })

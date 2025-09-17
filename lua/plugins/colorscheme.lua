@@ -6,7 +6,6 @@ return {
       require('onedark').setup {
         style = 'dark' -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
       }
-      -- Enable theme
       -- require('onedark').load()
     end
   },

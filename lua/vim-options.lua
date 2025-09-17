@@ -2,10 +2,10 @@ vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
-
+vim.g.mapleader = " "
+--
 -- Disable Python's default 4-space indentation
 vim.g.python_recommended_style = 0
-vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>w", function()
   local prettier_filetypes = {
@@ -46,12 +46,9 @@ vim.keymap.set("n", "<leader>w", function()
   end
   vim.cmd("w!")
 end, { desc = "Force write, format, and organize imports (Go-specific)" })
+
 vim.keymap.set("n", "<leader>q", ":q!<CR>", { desc = "Force quit" })
 vim.keymap.set("n", "<leader>p", ":Prettier<CR>:w!<CR>", { desc = "Prettier" })
-
--- supermaven
--- vim.api.nvim_set_keymap("n", "<leader>st", ":SupermavenStart<CR>", { noremap = true, silent = true })
--- vim.api.nvim_set_keymap("n", "<leader>sp", ":SupermavenStop<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -76,13 +73,16 @@ vim.keymap.set("n", "<leader>e", function()
   })
 end, { noremap = true, silent = true, desc = "Open diagnostic float" })
 
--- Configure diagnostic signs with colored circles
-vim.fn.sign_define("DiagnosticSignError", { text = "●", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "●", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = "●", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "●", texthl = "DiagnosticSignHint" })
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+-- Configure diagnostics
+vim.diagnostic.config({
   underline = true,
   virtual_text = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "●",
+      [vim.diagnostic.severity.WARN] = "●",
+      [vim.diagnostic.severity.INFO] = "●",
+      [vim.diagnostic.severity.HINT] = "●",
+    }
+  }
 })
