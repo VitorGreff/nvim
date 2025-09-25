@@ -3,86 +3,27 @@ vim.cmd("set tabstop=2")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.g.mapleader = " "
---
--- Disable Python's default 4-space indentation
-vim.g.python_recommended_style = 0
 
-vim.keymap.set("n", "<leader>w", function()
-  local prettier_filetypes = {
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "css",
-    "less",
-    "scss",
-    "json",
-    "graphql",
-    "markdown",
-    "vue",
-    "yaml",
-    "html",
-  }
-
-  local function is_prettier_filetype(ft)
-    for _, v in ipairs(prettier_filetypes) do
-      if v == ft then
-        return true
-      end
-    end
-    return false
-  end
-
-  if is_prettier_filetype(vim.bo.filetype) then
-    -- Use Prettier for supported file types
-    require("conform").format({ bufnr = 0, lsp_fallback = true })
-  elseif vim.bo.filetype == "go" then
-    vim.lsp.buf.format()
-    -- Golang autoimport
-    vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-    vim.lsp.buf.format()
-  else
-    vim.lsp.buf.format()
-  end
-  vim.cmd("w!")
-end, { desc = "Force write, format, and organize imports (Go-specific)" })
-
+vim.keymap.set("n", "<leader>w", ":w!<CR>", { desc = "Force write" })
 vim.keymap.set("n", "<leader>q", ":q!<CR>", { desc = "Force quit" })
-vim.keymap.set("n", "<leader>p", ":Prettier<CR>:w!<CR>", { desc = "Prettier" })
 
 vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = "YankHighlight",
-  callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
-  end,
+	group = "YankHighlight",
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+	end,
 })
 
--- error diagnosis
-vim.keymap.set("n", "<leader>e", function()
-  vim.diagnostic.open_float(nil, {
-    focus = false,
-    scope = "cursor",
-    border = "rounded",
-    source = "always",
-    header = "",
-    prefix = "",
-    format = function(diagnostic)
-      return string.format("%s", diagnostic.message)
-    end
-  })
-end, { noremap = true, silent = true, desc = "Open diagnostic float" })
-
--- Configure diagnostics
 vim.diagnostic.config({
-  underline = true,
-  virtual_text = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "●",
-      [vim.diagnostic.severity.WARN] = "●",
-      [vim.diagnostic.severity.INFO] = "●",
-      [vim.diagnostic.severity.HINT] = "●",
-    }
-  }
+	underline = true,
+	virtual_text = false,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "●",
+			[vim.diagnostic.severity.WARN] = "●",
+			[vim.diagnostic.severity.INFO] = "●",
+			[vim.diagnostic.severity.HINT] = "●",
+		},
+	},
 })
