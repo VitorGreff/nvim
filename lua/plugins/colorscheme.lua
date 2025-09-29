@@ -5,26 +5,16 @@ return {
 			require("monokai-pro").setup({
 				filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
 			})
-			vim.cmd.colorscheme("monokai-pro-spectrum")
+			--vim.cmd.colorscheme("monokai-pro-spectrum")
 		end,
 	},
 	{
-		"gantoreno/nvim-gabriel",
+		"vague2k/vague.nvim",
 		config = function()
-			-- vim.cmd.colorscheme("gabriel")
-		end,
-	},
-	{
-		"aktersnurra/no-clown-fiesta.nvim",
-		config = function()
-			--vim.cmd.colorscheme("no-clown-fiesta")
-		end,
-	},
-	{
-		"savq/melange-nvim",
-		-- version = "v0.*", -- uncomment for stable config (some features might be missed if/when v1 comes out)
-		config = function()
-			--vim.cmd("colorscheme melange")
+			require("vague").setup({
+				transparent = true,
+			})
+			vim.cmd.color("vague")
 		end,
 	},
 }
