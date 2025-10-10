@@ -15,7 +15,6 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"ts_ls",
-					"biome",
 					"html",
 					"cssls",
 					"tailwindcss",
@@ -25,17 +24,19 @@ return {
 					"gopls",
 					"pyright",
 					"rust_analyzer",
+					"astro",
+					"jdtls",
 				},
 				-- LSPs handled by mason
 				handlers = {
 					function(server_name)
-						require("lspconfig")[server_name].setup({
+						vim.lsp.enable(server_name, {
 							capabilities = capabilities,
 						})
 					end,
 
 					["lua_ls"] = function()
-						require("lspconfig").lua_ls.setup({
+						vim.lsp.enable("lua_ls", {
 							capabilities = capabilities,
 							settings = {
 								Lua = {
@@ -45,16 +46,130 @@ return {
 						})
 					end,
 
+					["ts_ls"] = function()
+						vim.lsp.enable("ts_ls", {
+							root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+							capabilities = capabilities,
+						})
+					end,
+
+					["gopls"] = function()
+						vim.lsp.enable("gopls", {
+							root_markers = { "go.mod", "go.work", ".git" },
+							capabilities = capabilities,
+						})
+					end,
+
+					["pyright"] = function()
+						vim.lsp.enable("pyright", {
+							root_markers = {
+								"pyproject.toml",
+								"setup.py",
+								"requirements.txt",
+								"pyrightconfig.json",
+								".git",
+							},
+							capabilities = capabilities,
+						})
+					end,
+
+					["rust_analyzer"] = function()
+						vim.lsp.enable("rust_analyzer", {
+							root_markers = { "Cargo.toml", ".git" },
+							capabilities = capabilities,
+						})
+					end,
+
+					["tailwindcss"] = function()
+						vim.lsp.enable("tailwindcss", {
+							root_markers = { "tailwind.config.js", "tailwind.config.ts", "package.json", ".git" },
+							capabilities = capabilities,
+						})
+					end,
+
+					["astro"] = function()
+						vim.lsp.enable("astro", {
+							root_markers = { "astro.config.mjs", "package.json", ".git" },
+							capabilities = capabilities,
+						})
+					end,
+
 					["emmet_ls"] = function()
 						local emmet_capabilities = vim.deepcopy(capabilities)
 						emmet_capabilities.textDocument.completion.completionItem.snippetSupport = true
-						require("lspconfig").emmet_ls.setup({
+						vim.lsp.enable("emmet_ls", {
 							capabilities = emmet_capabilities,
 							filetypes = {
 								"typescriptreact",
 								"javascriptreact",
 								"tsx",
 								"jsx",
+								"astro",
+							},
+						})
+					end,
+
+					["jdtls"] = function()
+						vim.lsp.enable("jdtls", {
+							root_markers = {
+								-- Maven
+								"pom.xml",
+								-- Gradle
+								"build.gradle",
+								"build.gradle.kts",
+								"settings.gradle",
+								"settings.gradle.kts",
+								-- Other Java project markers
+								".classpath",
+								".project",
+								"src/main/java",
+								-- Fallback
+								".git",
+							},
+							capabilities = capabilities,
+							settings = {
+								java = {
+									signatureHelp = { enabled = true },
+									contentProvider = { preferred = "fernflower" },
+									completion = {
+										favoriteStaticMembers = {
+											"org.junit.jupiter.api.Assertions.*",
+											"org.junit.Assert.*",
+											"org.mockito.Mockito.*",
+										},
+										filteredTypes = {
+											"com.sun.*",
+											"io.micrometer.shaded.*",
+											"java.awt.*",
+											"jdk.*",
+											"sun.*",
+										},
+									},
+									sources = {
+										organizeImports = {
+											starThreshold = 9999,
+											staticStarThreshold = 9999,
+										},
+									},
+									codeGeneration = {
+										toString = {
+											template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+										},
+										hashCodeEquals = {
+											useJava7Objects = true,
+										},
+										useBlocks = true,
+									},
+									configuration = {
+										runtimes = {
+											-- Example:
+											-- {
+											--   name = "JavaSE-17",
+											--   path = "/usr/lib/jvm/java-17-openjdk",
+											-- },
+										},
+									},
+								},
 							},
 						})
 					end,
@@ -70,7 +185,8 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			-- LSPs handled by nvim-lspconfig
-			require("lspconfig").gleam.setup({
+			vim.lsp.enable("gleam", {
+				root_markers = { ".git", "gleam.toml" },
 				capabilities = capabilities,
 			})
 			vim.keymap.set("n", "K", function()
