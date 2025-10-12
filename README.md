@@ -7,8 +7,3 @@ To properly load and use all plugins, you need to have the following installed:
 1. [yarn](https://yarnpkg.com/)
 2. [lazygit](https://github.com/jesseduffield/lazygit)
 3. [ripgrep](https://github.com/BurntSushi/ripgrep)
-4. [prettierd](https://github.com/fsouza/prettierd?tab=readme-ov-file)
-5. [biomejs](https://github.com/biomejs/biome)
-   - npm packages are linked with your current node version, this means that if you change your node version, both prettierd and biome will need to be reinstalled.
-
-The rest of the plugins can be installed via lazy and all the lsps can be installed via **:MasonInstallAll**. Make sure that the "ensure_installed" field is uncommented at lsp-config.lua file to allow a more direct installation of all listed lsps.
