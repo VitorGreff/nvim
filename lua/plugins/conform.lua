@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 return {
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -6,57 +7,93 @@ return {
 			ensure_installed = {
 				"goimports",
 				"gofumpt",
-				"black",
 				"stylua",
 				"prettierd",
 				"biome",
 				"rustfmt",
-				"google-java-format",
+				"sql-formatter",
+				"ruff",
 			},
 			run_on_start = true,
 			auto_update = false,
 		},
 	},
-
 	{
 		"stevearc/conform.nvim",
-		opts = {
-			formatters = {
-				biome = {
-					args = {
-						"check",
-						"--write",
-						"--unsafe",
-						"--stdin-file-path",
-						"$FILENAME",
+		opts = function()
+			-- checks for config files in the current directory
+			-- if none are found, falls back to biome (global config needed)
+			local function select_formatter(bufnr)
+				local cwd = vim.fn.getcwd()
+				if vim.fn.filereadable(cwd .. "/biome.json") == 1 then
+					return { "biome" }
+				elseif
+					vim.fn.filereadable(cwd .. "/.prettierrc") == 1
+					or vim.fn.filereadable(cwd .. "/.prettierrc.json") == 1
+					or vim.fn.filereadable(cwd .. "/.prettierrc.yml") == 1
+					or vim.fn.filereadable(cwd .. "/.prettierrc.yaml") == 1
+					or vim.fn.filereadable(cwd .. "/.prettierrc.js") == 1
+					or vim.fn.filereadable(cwd .. "/prettier.config.js") == 1
+					or vim.fn.filereadable(cwd .. "/prettier.config.cjs") == 1
+				then
+					return { "prettierd" }
+				else
+					return { "biome" }
+				end
+			end
+
+			return {
+				formatters = {
+					biome = {
+						args = {
+							"check",
+							"--write",
+							"--unsafe",
+							"--stdin-file-path",
+							"$FILENAME",
+						},
+					},
+					["sql-formatter"] = {
+						command = "sql-formatter",
+						args = { "-l", "sql" },
+						stdin = true,
+					},
+					ruff_format = {
+						command = "ruff",
+						args = {
+							"format",
+							"--stdin-filename",
+							"$FILENAME",
+							"-",
+						},
+						stdin = true,
 					},
 				},
-			},
-			formatters_by_ft = {
-				javascript = { "biome" },
-				typescript = { "biome" },
-				javascriptreact = { "biome" },
-				typescriptreact = { "biome" },
-				css = { "biome" },
-				scss = { "biome" },
-				html = { "prettier" },
-				json = { "prettier" },
-				jsonc = { "prettier" },
-				markdown = { "prettier" },
-				["markdown.mdx"] = { "prettier" },
-				handlebars = { "prettier" },
-				astro = { "prettier" },
-				lua = { "stylua" },
-				go = { "goimports", "gofumpt" },
-				gleam = { "gleam" },
-				python = { "black" },
-				rust = { "rustfmt" },
-				java = { "google-java-format" },
-			},
-			format_on_save = {
-				timeout_ms = 2000,
-				lsp_fallback = false,
-			},
-		},
+				formatters_by_ft = {
+					javascript = select_formatter,
+					typescript = select_formatter,
+					javascriptreact = select_formatter,
+					typescriptreact = select_formatter,
+					html = select_formatter,
+					css = select_formatter,
+					scss = { "prettierd" },
+					json = { "prettierd" },
+					jsonc = { "prettierd" },
+					markdown = { "prettierd" },
+					["markdown.mdx"] = { "prettierd" },
+					astro = { "prettierd" },
+					lua = { "stylua" },
+					go = { "goimports", "gofumpt" },
+					gleam = { "gleam" },
+					python = { "ruff_format" },
+					rust = { "rustfmt" },
+					sql = { "sql-formatter" },
+				},
+				format_on_save = {
+					timeout_ms = 2000,
+					lsp_fallback = false,
+				},
+			}
+		end,
 	},
 }
