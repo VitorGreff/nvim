@@ -25,9 +25,7 @@ return {
 			-- if none are found, falls back to biome (global config needed)
 			local function select_formatter(bufnr)
 				local cwd = vim.fn.getcwd()
-				if vim.fn.filereadable(cwd .. "/biome.json") == 1 then
-					return { "biome" }
-				elseif
+				if
 					vim.fn.filereadable(cwd .. "/.prettierrc") == 1
 					or vim.fn.filereadable(cwd .. "/.prettierrc.json") == 1
 					or vim.fn.filereadable(cwd .. "/.prettierrc.yml") == 1

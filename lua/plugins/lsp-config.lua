@@ -25,7 +25,7 @@ return {
 					"pyright",
 					"rust_analyzer",
 					"astro",
-					"jdtls",
+					"biome",
 				},
 				-- LSPs handled by mason
 				handlers = {
@@ -53,9 +53,16 @@ return {
 						})
 					end,
 
+					["biome"] = function()
+						vim.lsp.enable("biome", {
+							root_markers = { "biome.json", "biome.jsonc" },
+							capabilities = capabilities,
+						})
+					end,
+
 					["gopls"] = function()
 						vim.lsp.enable("gopls", {
-							root_markers = { "go.mod", "go.work", ".git" },
+							root_markers = { "go.mod", "go.work" },
 							capabilities = capabilities,
 						})
 					end,
@@ -67,7 +74,6 @@ return {
 								"setup.py",
 								"requirements.txt",
 								"pyrightconfig.json",
-								".git",
 							},
 							capabilities = capabilities,
 						})
@@ -75,21 +81,30 @@ return {
 
 					["rust_analyzer"] = function()
 						vim.lsp.enable("rust_analyzer", {
-							root_markers = { "Cargo.toml", ".git" },
+							root_markers = { "Cargo.toml" },
 							capabilities = capabilities,
 						})
 					end,
 
 					["tailwindcss"] = function()
 						vim.lsp.enable("tailwindcss", {
-							root_markers = { "tailwind.config.js", "tailwind.config.ts", "package.json", ".git" },
+							root_markers = {
+								"tailwind.config.js",
+								"tailwind.config.ts",
+								"tailwind.config.cjs",
+								"tailwind.config.mjs",
+							},
 							capabilities = capabilities,
 						})
 					end,
 
 					["astro"] = function()
 						vim.lsp.enable("astro", {
-							root_markers = { "astro.config.mjs", "package.json", ".git" },
+							root_markers = {
+								"astro.config.mjs",
+								"astro.config.js",
+								"astro.config.ts",
+							},
 							capabilities = capabilities,
 						})
 					end,
@@ -108,71 +123,6 @@ return {
 							},
 						})
 					end,
-
-					["jdtls"] = function()
-						vim.lsp.enable("jdtls", {
-							root_markers = {
-								-- Maven
-								"pom.xml",
-								-- Gradle
-								"build.gradle",
-								"build.gradle.kts",
-								"settings.gradle",
-								"settings.gradle.kts",
-								-- Other Java project markers
-								".classpath",
-								".project",
-								"src/main/java",
-								-- Fallback
-								".git",
-							},
-							capabilities = capabilities,
-							settings = {
-								java = {
-									signatureHelp = { enabled = true },
-									contentProvider = { preferred = "fernflower" },
-									completion = {
-										favoriteStaticMembers = {
-											"org.junit.jupiter.api.Assertions.*",
-											"org.junit.Assert.*",
-											"org.mockito.Mockito.*",
-										},
-										filteredTypes = {
-											"com.sun.*",
-											"io.micrometer.shaded.*",
-											"java.awt.*",
-											"jdk.*",
-											"sun.*",
-										},
-									},
-									sources = {
-										organizeImports = {
-											starThreshold = 9999,
-											staticStarThreshold = 9999,
-										},
-									},
-									codeGeneration = {
-										toString = {
-											template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-										},
-										hashCodeEquals = {
-											useJava7Objects = true,
-										},
-										useBlocks = true,
-									},
-									configuration = {
-										runtimes = {
-											-- Example:
-											-- {
-											--   name = "JavaSE-17",
-											--   path = "/usr/lib/jvm/java-17-openjdk",
-											-- },
-										},
-									},
-								},
-							},
-						})
-					end,
 				},
 			})
 		end,
@@ -184,9 +134,9 @@ return {
 		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			-- LSPs handled by nvim-lspconfig
+			-- LSPs not handlet by mason
 			vim.lsp.enable("gleam", {
-				root_markers = { ".git", "gleam.toml" },
+				root_markers = { "gleam.toml" },
 				capabilities = capabilities,
 			})
 			vim.keymap.set("n", "K", function()

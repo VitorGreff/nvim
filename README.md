@@ -2,8 +2,10 @@ This is a very basic neovim configuration that relies at lazy.nvim to load plugi
 
 ## Requirements
 
-To properly load and use all plugins, you need to have the following installed:
+To properly load and use all plugins, you will need to have the following installed:
 
 1. [yarn](https://yarnpkg.com/)
 2. [lazygit](https://github.com/jesseduffield/lazygit)
 3. [ripgrep](https://github.com/BurntSushi/ripgrep)
+
+Also, it is recommended to have a default biome.json at root, so even in non-biome projects, you can have the autoformatting.

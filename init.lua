@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.swapfile = false
-
+vim.opt.showbreak = "↪ "
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
 
 require("vim-options")
