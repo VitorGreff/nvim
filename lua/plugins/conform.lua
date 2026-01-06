@@ -22,21 +22,13 @@ return {
 		"stevearc/conform.nvim",
 		opts = function()
 			-- checks for config files in the current directory
-			-- if none are found, falls back to biome (global config needed)
+			-- if none are found, falls back to prettierd (no global config needed)
 			local function select_formatter(bufnr)
 				local cwd = vim.fn.getcwd()
-				if
-					vim.fn.filereadable(cwd .. "/.prettierrc") == 1
-					or vim.fn.filereadable(cwd .. "/.prettierrc.json") == 1
-					or vim.fn.filereadable(cwd .. "/.prettierrc.yml") == 1
-					or vim.fn.filereadable(cwd .. "/.prettierrc.yaml") == 1
-					or vim.fn.filereadable(cwd .. "/.prettierrc.js") == 1
-					or vim.fn.filereadable(cwd .. "/prettier.config.js") == 1
-					or vim.fn.filereadable(cwd .. "/prettier.config.cjs") == 1
-				then
-					return { "prettierd" }
-				else
+				if vim.fn.filereadable(cwd .. "/biome.json") == 1 then
 					return { "biome" }
+				else
+					return { "prettierd" }
 				end
 			end
 
@@ -79,7 +71,7 @@ return {
 					jsonc = { "prettierd" },
 					markdown = { "prettierd" },
 					["markdown.mdx"] = { "prettierd" },
-					astro = { "prettierd" },
+					astro = select_formatter,
 					lua = { "stylua" },
 					go = { "goimports", "gofumpt" },
 					gleam = { "gleam" },
