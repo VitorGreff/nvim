@@ -8,7 +8,6 @@ return {
 					transparency = true,
 				},
 			})
-			vim.cmd.colorscheme("onedark_vivid")
 		end,
 	},
 	{
@@ -19,7 +18,6 @@ return {
 					transparent = true,
 				},
 			})
-			--vim.cmd.colorscheme("nightfox")
 		end,
 	},
 	{
@@ -29,18 +27,14 @@ return {
 		priority = 1000, -- make sure to load this before all the other start plugins
 		-- Optional; default configuration will be used if setup isn't called.
 		config = function()
-			require("everforest").setup({
-				--vim.cmd.colorscheme("everforest"),
-			})
+			require("everforest").setup({})
 		end,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
 		config = function()
-			require("gruvbox").setup({
-				--	vim.cmd.colorscheme("gruvbox"),
-			})
+			require("gruvbox").setup({})
 		end,
 	},
 }
