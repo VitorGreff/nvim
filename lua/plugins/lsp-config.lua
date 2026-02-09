@@ -30,13 +30,14 @@ return {
 				-- LSPs handled by mason
 				handlers = {
 					function(server_name)
-						vim.lsp.enable(server_name, {
+						vim.lsp.config(server_name, {
 							capabilities = capabilities,
 						})
+						vim.lsp.enable(server_name)
 					end,
 
 					["lua_ls"] = function()
-						vim.lsp.enable("lua_ls", {
+						vim.lsp.config("lua_ls", {
 							capabilities = capabilities,
 							settings = {
 								Lua = {
@@ -44,31 +45,35 @@ return {
 								},
 							},
 						})
+						vim.lsp.enable("lua_ls")
 					end,
 
 					["ts_ls"] = function()
-						vim.lsp.enable("ts_ls", {
+						vim.lsp.config("ts_ls", {
 							root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("ts_ls")
 					end,
 
 					["biome"] = function()
-						vim.lsp.enable("biome", {
+						vim.lsp.config("biome", {
 							root_markers = { "biome.json", "biome.jsonc" },
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("biome")
 					end,
 
 					["gopls"] = function()
-						vim.lsp.enable("gopls", {
+						vim.lsp.config("gopls", {
 							root_markers = { "go.mod", "go.work" },
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("gopls")
 					end,
 
 					["pyright"] = function()
-						vim.lsp.enable("pyright", {
+						vim.lsp.config("pyright", {
 							root_markers = {
 								"pyproject.toml",
 								"setup.py",
@@ -77,17 +82,19 @@ return {
 							},
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("pyright")
 					end,
 
 					["rust_analyzer"] = function()
-						vim.lsp.enable("rust_analyzer", {
+						vim.lsp.config("rust_analyzer", {
 							root_markers = { "Cargo.toml" },
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("rust_analyzer")
 					end,
 
 					["tailwindcss"] = function()
-						vim.lsp.enable("tailwindcss", {
+						vim.lsp.config("tailwindcss", {
 							root_markers = {
 								"tailwind.config.js",
 								"tailwind.config.ts",
@@ -96,10 +103,11 @@ return {
 							},
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("tailwindcss")
 					end,
 
 					["astro"] = function()
-						vim.lsp.enable("astro", {
+						vim.lsp.config("astro", {
 							root_markers = {
 								"astro.config.mjs",
 								"astro.config.js",
@@ -107,12 +115,13 @@ return {
 							},
 							capabilities = capabilities,
 						})
+						vim.lsp.enable("astro")
 					end,
 
 					["emmet_ls"] = function()
 						local emmet_capabilities = vim.deepcopy(capabilities)
 						emmet_capabilities.textDocument.completion.completionItem.snippetSupport = true
-						vim.lsp.enable("emmet_ls", {
+						vim.lsp.config("emmet_ls", {
 							capabilities = emmet_capabilities,
 							filetypes = {
 								"typescriptreact",
@@ -122,6 +131,7 @@ return {
 								"astro",
 							},
 						})
+						vim.lsp.enable("emmet_ls")
 					end,
 				},
 			})
@@ -134,11 +144,12 @@ return {
 		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			-- LSPs not handlet by mason
-			vim.lsp.enable("gleam", {
+			-- LSPs not handled by mason
+			vim.lsp.config("gleam", {
 				root_markers = { "gleam.toml" },
 				capabilities = capabilities,
 			})
+			vim.lsp.enable("gleam")
 			vim.keymap.set("n", "K", function()
 				vim.lsp.buf.hover({
 					border = "rounded",
