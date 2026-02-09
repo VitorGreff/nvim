@@ -4,8 +4,24 @@ This is a very basic neovim configuration that relies at lazy.nvim to load plugi
 
 To properly load and use all plugins, you will need to have the following installed:
 
-1. [yarn](https://yarnpkg.com/)
-2. [lazygit](https://github.com/jesseduffield/lazygit)
-3. [ripgrep](https://github.com/BurntSushi/ripgrep)
+### Core
 
-Also, it is recommended to have a default biome.json at root, so even in non-biome projects, you can have the autoformatting.
+1. [Neovim](https://neovim.io/) >= 0.11
+2. A C compiler (`gcc` or `cc`) — required for treesitter parser compilation
+3. [Git](https://git-scm.com/)
+
+### Language toolchains
+
+4. [Node.js](https://nodejs.org/) and npm — required by Mason for most LSP servers and formatters
+5. [Go](https://go.dev/) — required for `gopls`, `goimports`, `gofumpt`
+6. [Python 3](https://www.python.org/) and `python3-venv` — required for `ruff`
+7. [Rust](https://www.rust-lang.org/) and Cargo — required for `rust_analyzer`, `rustfmt`
+8. [Gleam](https://gleam.run/) — LSP configured outside Mason
+
+### External tools
+
+9. [ripgrep](https://github.com/BurntSushi/ripgrep) — used by Telescope for `live_grep`
+10. [lazygit](https://github.com/jesseduffield/lazygit) — git TUI integration
+11. [yarn](https://yarnpkg.com/) — used by markdown-preview.nvim
+
+For JS/TS projects, if a `biome.json` is present, Biome will be used for formatting; otherwise, Prettier (`prettierd`) will be used as the fallback.
