@@ -37,4 +37,15 @@ return {
 			require("gruvbox").setup({})
 		end,
 	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "auto",
+				transparent_background = true,
+			})
+		end,
+	},
 }
