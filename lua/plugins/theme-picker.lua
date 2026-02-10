@@ -15,6 +15,7 @@ return {
 				"catppuccin-latte",
 				"catppuccin-mocha",
 				"catppuccin-macchiato",
+				"solarized",
 			},
 			livePreview = true,
 		})

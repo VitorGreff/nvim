@@ -24,8 +24,7 @@ return {
 		"neanias/everforest-nvim",
 		version = false,
 		lazy = false,
-		priority = 1000, -- make sure to load this before all the other start plugins
-		-- Optional; default configuration will be used if setup isn't called.
+		priority = 1000,
 		config = function()
 			require("everforest").setup({})
 		end,
@@ -46,6 +45,16 @@ return {
 				flavour = "auto",
 				transparent_background = true,
 			})
+		end,
+	},
+	{
+		"maxmx03/solarized.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.o.termguicolors = true
+			vim.o.background = "light"
+			require("solarized").setup({})
 		end,
 	},
 }

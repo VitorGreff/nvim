@@ -19,8 +19,3 @@ vim.opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-c
 
 require("vim-options")
 require("lazy").setup("plugins")
-
--- Define highlight groups for floating windows
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
--- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#FFFFFF" })
--- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#F5F5F5" })
