@@ -16,7 +16,17 @@ return {
 		-- 'tomtom/tcomment_vim',           -- for commenting
 	},
 
-	opts = { -- see below for full configuration options
+	opts = {
 		mappings = true,
 	},
+
+	-- Keybindings (LocalLeader = \):
+	--   \i     toggle infoview
+	--   \p     pause/unpause infoview
+	--   \x     add pin no infoview
+	--   \c     clear all pins
+	--   \<Tab> jump para o infoview
+	--   \\     reverse lookup do unicode sob o cursor
+	--   \r     restart lean server
+	--   \v     view options do infoview
 }
