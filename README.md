@@ -17,11 +17,12 @@ To properly load and use all plugins, you will need to have the following instal
 6. [Python 3](https://www.python.org/) and `python3-venv` — required for `ruff`
 7. [Rust](https://www.rust-lang.org/) and Cargo — required for `rust_analyzer`, `rustfmt`
 8. [Gleam](https://gleam.run/) — LSP configured outside Mason
+9. [Lean 4](https://lean-lang.org/) via [elan](https://github.com/leanprover/elan) — required for `lake serve` (Lean LSP)
 
 ### External tools
 
-9. [ripgrep](https://github.com/BurntSushi/ripgrep) — used by Telescope for `live_grep`
-10. [lazygit](https://github.com/jesseduffield/lazygit) — git TUI integration
-11. [yarn](https://yarnpkg.com/) — used by markdown-preview.nvim
+10. [ripgrep](https://github.com/BurntSushi/ripgrep) — used by Telescope for `live_grep`
+11. [lazygit](https://github.com/jesseduffield/lazygit) — git TUI integration
+12. [yarn](https://yarnpkg.com/) — used by markdown-preview.nvim
 
 For JS/TS projects, if a `biome.json` is present, Biome will be used for formatting; otherwise, Prettier (`prettierd`) will be used as the fallback.
