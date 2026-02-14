@@ -23,10 +23,10 @@ return {
 	-- Keybindings (LocalLeader = \):
 	--   \i     toggle infoview
 	--   \p     pause/unpause infoview
-	--   \x     add pin no infoview
+	--   \x     add pin to infoview
 	--   \c     clear all pins
-	--   \<Tab> jump para o infoview
-	--   \\     reverse lookup do unicode sob o cursor
+	--   \<Tab> jump to infoview
+	--   \\     reverse unicode lookup for symbol under cursor
 	--   \r     restart lean server
-	--   \v     view options do infoview
+	--   \v     view infoview options
 }
