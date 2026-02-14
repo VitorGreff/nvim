@@ -41,6 +41,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Set the working directory to the path of the current buffer
+vim.keymap.set("n", "<leader>grb", function()
+	vim.cmd("cd " .. vim.fn.expand("%:p:h"))
+end, { desc = "Set working directory to path of buffer" })
+
+-- Navigate up one directory
+vim.keymap.set("n", "<leader>grd", function()
+	vim.cmd("cd ..")
+end, { desc = "Navigate up one directory from current" })
+
 vim.diagnostic.config({
 	underline = true,
 	virtual_text = false,
